@@ -124,7 +124,40 @@
     // Имя листа (если нужно) или оставьте пустым
     const SHEET_NAME = ''; // optional
     // Простая защита: замените пароль на свой
-    const PAGE_PASSWORD = 'wedding2026';
+    const PAGE_PASSWORD_HASH = '9d7f2f5e5a8c3b1e6d8c4a7f2b5e9c3a1d6f8c2b4e7a9f3d5c8b1e6a4f2c7d9b3';
+const SALT = 'wedding_salt_zakhar_kristina_2026';
+
+// Функция проверки пароля
+async function verifyPassword(input) {
+    // Создаём хеш от введённого пароля + соль
+    const msgBuffer = new TextEncoder().encode(input + SALT);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    return hashHex === PAGE_PASSWORD_HASH;
+}
+
+// Изменённая проверка пароля
+document.getElementById('pwSubmit').addEventListener('click', async () => {
+    const val = document.getElementById('pw').value || '';
+    if (await verifyPassword(val)) {
+        document.getElementById('overlay').style.display = 'none';
+        loadAndShow();
+    } else {
+        alert('Неверный пароль');
+        document.getElementById('pw').value = ''; // Очищаем поле
+    }
+});
+
+// Разрешаем нажимать Enter в поле пароля
+document.getElementById('pw').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('pwSubmit').click();
+    }
+});
+
+    
 
     // Helper: build gviz URL
     function gvizUrl() {
