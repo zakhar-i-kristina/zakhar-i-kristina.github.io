@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Захар и Кристина - Свадебное приглашение</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --lavender: #AA83B6;
+            --light-lavender: #D4C1E8;
+            --soft-pink: #F4BBC4;
+            --dusty-pink: #FFDFE5;
+            --white: #FFFFFF;
+            --dark-gray: #333333;
+            --medium-gray: #555555;
+        }
+
+        /* Один скролл: скроллится документ (html), body не создаёт свой скролл */
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow: visible;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        /* Hero Section — всегда видима, заполняет экран и центрирует контент */
+        .hero {
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+            height: 100vh;
+            opacity: 1;
+            transform: none;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, rgba(212, 193, 232, 0.7) 0%, rgba(255, 223, 229, 0.9) 45%, rgba(244, 187, 196, 0.8) 100%);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* center vertically */
+            align-items: center;     /* center horizontally */
+            text-align: center;
+            padding: 0 2rem; /* reduce top/bottom padding so hero fills screen neatly */
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 10%, rgba(255,255,255,0.7) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.55) 0%, transparent 55%),
+                        rgba(255, 255, 255, 0.15);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+            max-width: 720px;
+            width: 100%;
+            padding: 3.5rem 1.75rem; /* increased vertical + horizontal padding for more breathing room */
+            box-sizing: border-box;
+        }
+
+        .hero h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 4.5vw, 2.8rem); /* slightly smaller Save the date */
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem; /* more space below Save the date */
+            transform: translateY(-8px); /* nudge a bit higher */
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 1), 0 2px 8px rgba(0, 0, 0, 0.08);
+            letter-spacing: 0.02em;
+        }
+
+        .hero .names {
+            font-family: 'Great Vibes', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(3.2rem, 12vw, 6rem);
+            color: var(--lavender);
+            margin-bottom: 0.9rem; /* push date a bit lower */
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-align: center;
+            line-height: 1.06; /* avoid overlapping on small screens */
+        }
+
+        .hero .names .name-line {
+            display: block;
+            line-height: 1;
+        }
+        .hero .names .and {
+            display: block;
+            font-size: 0.6em;
+            color: rgba(85,85,85,0.9);
+            margin: 0.12rem 0;
+            transform: translateY(-2px);
+        }
+
+        .hero .date {
+            font-size: clamp(1.3rem, 4.2vw, 2rem);
+            color: var(--medium-gray);
+            margin-top: 0.6rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero .lead-text {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--medium-gray);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .date-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+            background: var(--soft-pink);
+            color: var(--white);
+            font-weight: 700;
+            margin: 0 5px;
+            box-shadow: 0 4px 10px rgba(244, 187, 196, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--lavender);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(170, 131, 182, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background: var(--soft-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(244, 187, 196, 0.5);
+        }
+
+        /* Блок «Родные и близкие» — сразу после Hero */
+        .intro-block {
+            width: 100%;
+            max-width: 100%;
+            display: flex;
+            min-height: 320px;
+            opacity: 1;
+            transform: none;
+            overflow-x: hidden;
+        }
+
+        .intro-block .intro-accent {
+            width: 38%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 223, 229, 0.4) 0%, rgba(212, 193, 232, 0.2) 100%);
+        }
+
+        .intro-photo-wrap {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            min-height: 280px;
+            padding: 10px;
+            background: linear-gradient(145deg, var(--white) 0%, var(--dusty-pink) 100%);
+            border-radius: 16px;
+            box-shadow:
+                0 0 0 3px var(--white),
+                0 0 0 6px rgba(212, 193, 232, 0.35),
+                0 6px 24px rgba(170, 131, 182, 0.12);
+        }
+
+        .intro-photo-wrap img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            object-position: center bottom;
+            border-radius: 10px;
+        }
+
+        .intro-block .intro-content {
+            width: 62%;
+            background: var(--white);
+            padding: 4rem 3rem 4rem 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .intro-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--lavender);
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .intro-content h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--soft-pink);
+            margin-top: 0.75rem;
+            border-radius: 2px;
+        }
+
+        .intro-content p {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--dark-gray);
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .intro-block {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .intro-block .intro-accent {
+                width: 100%;
+                min-height: 280px;
+                padding: 1.5rem;
+            }
+
+            .intro-photo-wrap {
+                min-height: 240px;
+            }
+
+            .intro-photo-wrap img {
+                min-height: 220px;
+            }
+
+            .intro-block .intro-content {
+                width: 100%;
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        /* Блок календаря — overflow: hidden убирает внутренний скролл (overflow-x: hidden даёт браузеру overflow-y: auto) */
+        .calendar-block {
+            width: 100%;
+            max-width: 100%;
+            background: var(--white);
+            padding: 4rem 2rem;
+            opacity: 1;
+            transform: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Декоративные круги — блок с z-index: 2 рисуется поверх следующей секции, круги не перекрываются белым */
+        .calendar-block::before {
+            content: '';
+            position: absolute;
+            bottom: -160px;
+            left: -100px;
+            width: 460px;
+            height: 460px;
+            background: rgba(255, 223, 229, 0.55);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .calendar-block::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -80px;
+            width: 340px;
+            height: 340px;
+            background: rgba(212, 193, 232, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .calendar-wrap {
+            max-width: 380px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding: 0 0.5rem;
+        }
+
+        .calendar-header {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-header .calendar-title-main {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+            font-weight: 600;
+            color: var(--soft-pink);
+            display: inline;
+            background: rgba(244, 187, 196, 0.2);
+            padding: 0.1em 0.25em;
+            border-radius: 4px;
+        }
+
+        .calendar-header .calendar-title-sub {
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.95rem;
+            color: var(--medium-gray);
+            margin-left: 0.25em;
+            display: inline;
+        }
+
+        .calendar-meta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.35em;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .calendar-meta .calendar-year {
+            color: var(--medium-gray);
+            opacity: 0.9;
+        }
+
+        .calendar-meta .calendar-month {
+            font-weight: 500;
+            color: var(--lavender);
+            letter-spacing: 0.02em;
+        }
+
+        .calendar-meta .calendar-dot {
+            color: var(--soft-pink);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        /* Рамка календаря с 3D-эффектом */
+        .calendar-frame {
+            background: linear-gradient(145deg, #fff 0%, rgba(255, 223, 229, 0.15) 100%);
+            border: 2px solid rgba(212, 193, 232, 0.4);
+            border-radius: 16px;
+            padding: 1rem 1rem 1.25rem;
+            box-shadow:
+                0 4px 0 rgba(212, 193, 232, 0.25),
+                0 8px 20px rgba(170, 131, 182, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--medium-gray);
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .calendar-day:not(.calendar-day-empty):not(.calendar-day-highlight) {
+            color: var(--medium-gray);
+        }
+
+        .calendar-day-empty {
+            visibility: hidden;
+        }
+
+        .calendar-day-highlight {
+            background: rgba(244, 187, 196, 0.35);
+            color: var(--lavender);
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: var(--soft-pink);
+        }
+
+        .calendar-deco {
+            position: absolute;
+            left: 8%;
+            bottom: 12%;
+            width: 140px;
+            height: 160px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-block {
+                padding: 3rem 1.25rem;
+            }
+
+            .calendar-wrap {
+                max-width: 100%;
+                padding: 0 1.25rem;
+                box-sizing: border-box;
+                min-width: 0;
+            }
+
+            .calendar-header {
+                padding-left: 0.5rem;
+            }
+
+            .calendar-meta {
+                padding-left: 0.5rem;
+            }
+
+            .calendar-header .calendar-title-main {
+                font-size: 1.6rem;
+            }
+
+            .calendar-header .calendar-title-sub {
+                font-size: 0.9rem;
+            }
+
+            .calendar-meta {
+                font-size: 0.85rem;
+            }
+
+            .calendar-frame {
+                padding: 0.75rem;
+            }
+
+            .calendar-grid {
+                font-size: 0.8rem;
+            }
+
+            .calendar-block::before {
+                width: 220px;
+                height: 220px;
+                left: -50px;
+                bottom: -80px;
+            }
+
+            .calendar-block::after {
+                width: 160px;
+                height: 160px;
+                right: -40px;
+                bottom: -40px;
+            }
+
+            .calendar-deco {
+                width: 90px;
+                height: 110px;
+                left: 2%;
+            }
+        }
+
+        /* Section Styles — фон на всю ширину, без лишних скроллов */
+        section {
+            width: 100%;
+            max-width: 100%;
+            padding: 5rem 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--lavender);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--soft-pink), var(--light-lavender));
+            border-radius: 2px;
+        }
+
+        /* Program Section — без внутреннего скролла */
+        .program {
+            position: relative;
+            z-index: 0;
+            overflow-x: hidden;
+            overflow-y: visible;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 223, 229, 0.3));
+        }
+
+        .program-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+
+        .program-photo-wrap {
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Рамка для фото — нежная, милая */
+        .program-photo-frame {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 12px;
+            background: linear-gradient(145deg, var(--white) 0%, var(--dusty-pink) 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 0 0 3px var(--white),
+                0 0 0 6px rgba(212, 193, 232, 0.4),
+                0 0 0 9px rgba(244, 187, 196, 0.25),
+                0 8px 24px rgba(170, 131, 182, 0.15);
+        }
+
+        .program-photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+        .program-photo-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .timeline {
+            max-width: 100%;
+            margin: 0;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--soft-pink), var(--light-lavender));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 0;
+        }
+
+        .timeline-time {
+            font-weight: 600;
+            color: var(--lavender);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-text {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+        }
+
+        /* Location Section */
+        .location {
+            background: rgba(212, 193, 232, 0.1);
+        }
+
+        .location-block {
+            margin-bottom: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(170, 131, 182, 0.1);
+        }
+
+        .location-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--light-lavender);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(212, 193, 232, 0.3);
+            animation: emojiFloat 3s ease-in-out infinite;
+        }
+
+        /* Круглое фото в блоке «Начало венчания» — рамка в стиле сайта */
+        .location-photo-wrap {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1.5rem;
+            padding: 6px;
+            background: linear-gradient(145deg, var(--white) 0%, var(--dusty-pink) 50%, var(--light-lavender) 100%);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 3px var(--white),
+                0 0 0 6px rgba(212, 193, 232, 0.45),
+                0 4px 20px rgba(170, 131, 182, 0.2);
+        }
+
+        .location-photo-wrap img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .location-block h3 {
+            color: var(--lavender);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .location-address {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        /* Countdown Section */
+        .countdown {
+            background: linear-gradient(135deg, var(--dusty-pink) 0%, var(--light-lavender) 100%);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .countdown h2 {
+            color: var(--white);
+        }
+
+        .countdown h2::after {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 2rem 1.5rem;
+            border-radius: 15px;
+            min-width: 120px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        /* Dress Code Section */
+        .dress-code {
+            background: var(--white);
+        }
+
+        .dress-code-text {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .color-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+
+        /* Две колонки под палитрой: пример для дам / пример для джентльменов */
+        .dress-code-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dress-code-col {
+            text-align: center;
+        }
+
+        .dress-code-photo-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto 1rem;
+            padding: 10px;
+            background: linear-gradient(145deg, var(--white) 0%, var(--dusty-pink) 100%);
+            border-radius: 16px;
+            box-shadow:
+                0 0 0 3px var(--white),
+                0 0 0 6px rgba(212, 193, 232, 0.35),
+                0 6px 20px rgba(170, 131, 182, 0.12);
+        }
+
+        .dress-code-photo-wrap img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .dress-code-col-caption {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--medium-gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Wishes Section */
+        .wishes {
+            background: linear-gradient(to bottom, rgba(255, 223, 229, 0.3), rgba(212, 193, 232, 0.2));
+        }
+
+        .wishes-text {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            line-height: 1.8;
+        }
+
+        .wishes-list {
+            max-width: 700px;
+            margin: 2rem auto;
+            list-style: none;
+        }
+
+        .wishes-list li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--white);
+            border-radius: 10px;
+            border-left: 4px solid var(--soft-pink);
+            box-shadow: 0 2px 10px rgba(244, 187, 196, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wishes-list li::before {
+            content: '';
+            font-size: 1.5rem;
+            display: inline-block;
+            animation: emojiSoftPulse 2.5s ease-in-out infinite;
+        }
+
+        .wishes-list li:nth-child(2)::before { animation-delay: 0.4s; }
+        .wishes-list li:nth-child(3)::before { animation-delay: 0.8s; }
+
+        /* Form Section */
+        .form-section {
+            background: var(--white);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 223, 229, 0.2);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(170, 131, 182, 0.1);
+        }
+
+        /* Attendees list styling */
+        #attendees-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #attendees-list label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        #attendees-list input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #AA83B6;
+        }
+
+        #attendees-list input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #AA83B6;
+        }
+
+        /* attendee wrapper */
+        .attendee {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.6);
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(170,131,182,0.06);
+            border: 1px solid rgba(212,193,232,0.35);
+            margin: 0.2rem 0;
+            min-width: 220px;
+        }
+
+        .attendee input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 auto;
+        }
+
+        .attendee span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 480px) {
+            #attendees-list label {
+                justify-content: center;
+            }
+            #attendees-list span {
+                display: inline-block;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-lavender);
+            border-radius: 10px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--lavender);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group.required label::after {
+            content: ' *';
+            color: var(--soft-pink);
+        }
+
+        /* Contacts Section */
+        .contacts {
+            background: rgba(212, 193, 232, 0.1);
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(170, 131, 182, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-name {
+            font-size: 1.3rem;
+            color: var(--lavender);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .contact-phone {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer Section */
+        .footer {
+            background: linear-gradient(135deg, rgba(212, 193, 232, 0.3) 0%, rgba(244, 187, 196, 0.3) 100%);
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="footer-flowers" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse"><circle cx="40" cy="40" r="25" fill="none" stroke="%23F4BBC4" stroke-width="1" opacity="0.2"/></pattern></defs><rect width="100%25" height="100%25" fill="url(%23footer-flowers)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .footer-signature {
+            font-size: 1.3rem;
+            color: var(--lavender);
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        /* Animations */
+        @keyframes heroGradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.08); }
+        }
+
+        @keyframes emojiSoftPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.12); opacity: 0.9; }
+        }
+
+        .countdown-number {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .date-number {
+            animation: emojiSoftPulse 2.2s ease-in-out infinite;
+        }
+
+        .location-block {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .location-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(170, 131, 182, 0.15);
+        }
+
+        .calendar-frame {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .calendar-frame:hover {
+            box-shadow: 0 8px 28px rgba(212, 193, 232, 0.2);
+        }
+
+        .program-photo-frame {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .program-photo-frame:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(170, 131, 182, 0.15);
+        }
+
+        .dress-code-photo-wrap {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .dress-code-photo-wrap:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(212, 193, 232, 0.2);
+        }
+
+        section h2 {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .form-container {
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-container:focus-within {
+            box-shadow: 0 6px 24px rgba(170, 131, 182, 0.12);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .program {
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 223, 229, 0.45), rgba(212, 193, 232, 0.2));
+            }
+
+            .intro-block .intro-accent {
+                background: linear-gradient(135deg, rgba(255, 223, 229, 0.6) 0%, rgba(244, 187, 196, 0.35) 50%, rgba(212, 193, 232, 0.3) 100%);
+            }
+
+            .location {
+                background: rgba(212, 193, 232, 0.18);
+            }
+
+            .wishes {
+                background: linear-gradient(to bottom, rgba(255, 223, 229, 0.45), rgba(212, 193, 232, 0.3));
+            }
+
+            .countdown {
+                background: linear-gradient(135deg, rgba(255, 223, 229, 0.85) 0%, rgba(212, 193, 232, 0.7) 100%);
+            }
+
+            .footer {
+                background: linear-gradient(135deg, rgba(212, 193, 232, 0.4) 0%, rgba(244, 187, 196, 0.35) 100%);
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .program-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .program-photo-wrap {
+                position: static;
+                order: -1;
+            }
+
+            .program-photo-frame {
+                max-width: 320px;
+                padding: 10px;
+            }
+
+            .program-photo-frame img {
+                aspect-ratio: 4 / 5;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -1.8rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.4rem, 7.5vw, 3.5rem);
+            }
+
+            .hero .names {
+                font-size: clamp(3rem, 10vw, 5rem);
+            }
+
+            .hero .date {
+                font-size: clamp(1.35rem, 4.5vw, 1.95rem);
+            }
+
+            .countdown-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 320px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .countdown-item {
+                min-width: auto;
+                padding: 1.5rem 1rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-photo-wrap {
+                width: 130px;
+                height: 130px;
+                padding: 5px;
+            }
+
+            .color-palette {
+                gap: 0.5rem;
+            }
+
+            .color-swatch {
+                width: 60px;
+                height: 60px;
+            }
+
+            .dress-code-examples {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+
+            .dress-code-photo-wrap {
+                max-width: 260px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .location-photo-wrap {
+                width: 110px;
+                height: 110px;
+                padding: 4px;
+            }
+
+            .dress-code-photo-wrap {
+                max-width: 240px;
+            }
+
+            /* Full-screen hero on mobile: center content vertically and horizontally */
+            .hero {
+                padding: 0 1rem;
+                min-height: 100vh;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero .hero-content {
+                width: 100%;
+                max-width: 720px;
+                padding: 10rem 1.5rem; /* larger vertical padding on mobile for bigger gaps */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between; /* top: save, middle: names, bottom: date */
+                height: 100%;
+                box-sizing: border-box;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.8rem, 6vw, 2.8rem);
+                margin-bottom: 0.15rem;
+                transform: translateY(-18px);
+            }
+
+            .hero .names {
+                font-size: clamp(3.6rem, 18vw, 6.4rem);
+                line-height: 1.18; /* increase to avoid overlap */
+                margin-bottom: 0.5rem;
+            }
+
+            .hero .date {
+                font-size: clamp(1.05rem, 4.2vw, 1.6rem);
+                margin-top: 0.8rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .date-number {
+                width: 48px;
+                height: 48px;
+                line-height: 48px;
+            }
+
+            .countdown-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 320px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 1.25rem;
+            }
+
+            .countdown-item {
+                min-width: auto;
+                padding: 1.1rem 0.8rem;
+            }
+
+            .countdown-number {
+                font-size: 1.6rem;
+            }
+
+            .program-photo-frame {
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>Save the date</h1>
+            <div class="names">
+                <span class="name-line">Захар</span>
+                <span class="and">и</span>
+                <span class="name-line">Кристина</span>
+            </div>
+            <div class="date">
+                Воскресенье • <span class="date-number">16</span> Август 2026
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок «Родные и близкие» -->
+    <section class="intro-block" id="intro">
+        <div class="intro-accent">
+            <div class="intro-photo-wrap">
+                <!-- Подставьте свой адрес фото в src -->
+                <img src="image/IMG_2839_2.jpg" alt="Родные и близкие" width="400" height="400">
+            </div>
+        </div>
+        <div class="intro-content">
+            <h2 id="greeting-names">Дорогие друзья и родные!</h2>
+            <p>В нашей жизни наступает самый счастливый и важный день — день, когда мы становимся семьёй. И для нас невероятно важно, чтобы в этот момент рядом были вы — наши самые родные и близкие люди.
+
+                Приглашаем вас разделить с нами радость этого события и благословить наш союз в начале семейного пути.</p>
+        </div>
+    </section>
+
+    <!-- Блок календаря -->
+    <section class="calendar-block" id="calendar">
+        <svg class="calendar-deco" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M60 120 Q20 80 30 40 Q35 20 50 15 Q65 25 55 45 Q45 70 60 95" stroke="#D4C1E8" stroke-width="1.5" fill="none" opacity="0.8"/>
+            <ellipse cx="35" cy="38" rx="8" ry="12" fill="#F4BBC4" opacity="0.6"/>
+            <ellipse cx="52" cy="28" rx="6" ry="10" fill="#FFDFE5" opacity="0.7"/>
+            <ellipse cx="58" cy="50" rx="7" ry="11" fill="#D4C1E8" opacity="0.5"/>
+            <ellipse cx="48" cy="72" rx="6" ry="9" fill="#F4BBC4" opacity="0.5"/>
+        </svg>
+        <div class="calendar-wrap">
+            <div class="calendar-header">
+                <span class="calendar-title-main">Свадьба</span>
+                <span class="calendar-title-sub">состоится</span>
+            </div>
+            <div class="calendar-meta">
+                <span class="calendar-year">2026</span>
+                <span class="calendar-dot" aria-hidden="true">·</span>
+                <span class="calendar-month">АВГУСТ</span>
+            </div>
+            <div class="calendar-frame">
+            <div class="calendar-weekdays">
+                <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+            </div>
+            <div class="calendar-grid">
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day">1</span>
+                <span class="calendar-day">2</span>
+                <span class="calendar-day">3</span>
+                <span class="calendar-day">4</span>
+                <span class="calendar-day">5</span>
+                <span class="calendar-day">6</span>
+                <span class="calendar-day">7</span>
+                <span class="calendar-day">8</span>
+                <span class="calendar-day">9</span>
+                <span class="calendar-day">10</span>
+                <span class="calendar-day">11</span>
+                <span class="calendar-day">12</span>
+                <span class="calendar-day">13</span>
+                <span class="calendar-day">14</span>
+                <span class="calendar-day">15</span>
+                <span class="calendar-day calendar-day-highlight">16</span>
+                <span class="calendar-day">17</span>
+                <span class="calendar-day">18</span>
+                <span class="calendar-day">19</span>
+                <span class="calendar-day">20</span>
+                <span class="calendar-day">21</span>
+                <span class="calendar-day">22</span>
+                <span class="calendar-day">23</span>
+                <span class="calendar-day">24</span>
+                <span class="calendar-day">25</span>
+                <span class="calendar-day">26</span>
+                <span class="calendar-day">27</span>
+                <span class="calendar-day">28</span>
+                <span class="calendar-day">29</span>
+                <span class="calendar-day">30</span>
+                <span class="calendar-day">31</span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+                <span class="calendar-day calendar-day-empty"></span>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Section -->
+    <section class="program" id="program">
+        <div class="section-inner">
+        <h2>План дня</h2>
+        <div class="program-layout">
+            <div class="program-timeline-wrap">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">🤍 12:00</div>
+                        <div class="timeline-text">Венчание</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">🤍 14:30</div>
+                        <div class="timeline-text">Welcome в Дубицу</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">🤍 16:00</div>
+                        <div class="timeline-text">Праздничный банкет</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">🤍 22:30</div>
+                        <div class="timeline-text">Завершение свадьбы</div>
+                    </div>
+                </div>
+            </div>
+            <div class="program-photo-wrap">
+                <div class="program-photo-frame">
+                    <!-- Подставьте свой адрес фото в src -->
+                    <img src="image/IMG_2838_2.jpg" alt="Кристина и Захар" width="380" height="475">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <div class="section-inner">
+        <h2>Локации</h2>
+        
+        <div class="location-block">
+            <!-- Подставьте свой адрес фото в src -->
+            <div class="location-photo-wrap">
+                <img src="image/photo_2026.jpg" alt="Начало венчания" width="160" height="160">
+            </div>
+            <h3>Венчание</h3>
+            <p class="location-address">
+                Мошенского, 66, г. Брест
+            </p>
+           <!--   <p class="location-address" style="font-weight: 600; color: var(--lavender);">
+                Мошенского, 66, г. Брест
+            </p>-->
+        </div>
+
+        <div class="location-block">
+            <div class="location-photo-wrap">
+                <img src="image/photo_2026-02-06_22-40-39.jpg" alt="Начало венчания" width="160" height="160">
+            </div>
+            <h3>Праздничный банкет</h3>
+            <p class="location-address">
+                Ул. Центральная 2а, Дубица, Брестская область
+            </p>
+            <a href="https://yandex.ru/maps/org/syadziba_dubitsa/142630412312" target="_blank" class="btn" style="margin-top: 1rem;">Как добраться</a>
+        </div>
+        </div>
+    </section>
+
+    <!-- Dress Code Section -->
+    <section class="dress-code" id="dress-code">
+        <div class="section-inner">
+        <h2>Дресс-код</h2>
+        <p class="dress-code-text">
+            Нам будет очень приятно видеть джентльменов в классических костюмах, а дам - в нежных платьях следующих оттенков
+        </p>
+        <div class="color-palette">
+            <div class="color-swatch" style="background: #AA83B6;" title="#AA83B6"></div>
+            <div class="color-swatch" style="background: #D4C1E8;" title="#D4C1E8"></div>
+            <div class="color-swatch" style="background: #F4BBC4;" title="#F4BBC4"></div>
+            <div class="color-swatch" style="background: #FFDFE5;" title="#FFDFE5"></div>
+            <div class="color-swatch" style="background: #FFFFFF; border: 2px solid #D4C1E8;" title="#FFFFFF"></div>
+        </div>
+        <div class="dress-code-examples">
+            <div class="dress-code-col">
+                <div class="dress-code-photo-wrap">
+                    <!-- Подставьте адрес фото для дам в src -->
+                    <img src="image/women.webp" alt="Пример для дам" width="280" height="373">
+                </div>
+                <p class="dress-code-col-caption">Пример для дам</p>
+            </div>
+            <div class="dress-code-col">
+                <div class="dress-code-photo-wrap">
+                    <!-- Подставьте адрес фото для джентльменов в src -->
+                    <img src="image/IMG_2862.JPG" alt="Пример для джентльменов" width="280" height="373">
+                </div>
+                <p class="dress-code-col-caption">Пример для джентльменов</p>
+                <p class="dress-code-col-caption">(любой костюм)</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Wishes Section -->
+    <section class="wishes" id="wishes">
+        <div class="section-inner">
+        <h2>Пожелание гостям</h2>
+        <!--<div class="wishes-text">
+            Дорогие и родные! Мы знаем, что вы хотите сделать наш день особенным, и мы очень ценим вашу заботу. 
+            Поэтому мы хотели бы поделиться с вами нашими пожеланиями, которые помогут сделать этот день еще более незабываемым.
+
+            
+
+        </div>-->
+        <ul class="wishes-list">
+            <!-- <li>Перед подтверждением сделайте маленький важный шаг. Заполните, пожалуйста, анкету гостя. Для некоторых из вас это будет благословением.</li>
+            <li>Подтвердите свое присутствие до 24.06.2024.</li>-->
+            <li>Мы знаем, что многие из вас захотят порадовать нас красивыми букетами, и мы очень ценим эту мысль!
+
+                Но мы вынуждены признаться: мы — неответственные "цветководы". Сразу после свадьбы мы сбегаем в свадебное путешествие, и нам будет очень больно смотреть, как прекрасные цветы завянут без нас в пустой квартире.
+                
+                Поэтому мы будем бесконечно благодарны, если вы направите сумму, предназначенную для цветов, в наш "фонд мечты". Так ваша забота будет для нас бесценна.</li>
+            <!--<li>Улыбайтесь чаще)))</li>-->
+        </ul>
+        <div style="text-align: center; margin-top: 2rem;">
+            <!--<a href="#form" class="btn">Подтвердить присутствие →</a>-->
+        </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" id="form">
+        <div class="section-inner">
+        <h2>Анкета гостя</h2>
+        <div class="form-container">
+            <p style="text-align: center; margin-bottom: 2rem; color: var(--medium-gray);">
+                Просим подтвердить свое присутствие до 16.07.2026
+            </p>
+            <form id="guest-form" action="https://script.google.com/macros/s/AKfycbyNr1ydB-7Y_X7d54evAoZqu8EfvtVjrMwz7I8223MJrGXYJHeeNDflgC7mcsVlsLtu/exec" method="POST">
+                <input type="hidden" name="_subject" value="Анкета гостя — Захар и Кристина">
+                <!-- Attendees checkboxes will be injected here based on URL (one checkbox per invited person) -->
+                <div id="attendees-list" class="form-group" aria-live="polite" style="margin-bottom:1rem;">
+                    <!-- dynamically filled -->
+                </div>
+                <!-- Hidden summary fields for backend -->
+                <input type="hidden" name="attendees_json" id="attendees_json" value="">
+                <input type="hidden" name="attendees_invited" id="attendees_invited" value="">
+                <input type="hidden" name="attendees_present" id="attendees_present" value="">
+
+                <div class="form-group required">
+                    <label for="lastName">Фамилия</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guest-comments">Комментарий</label>
+                    <textarea id="guest-comments" name="comments" placeholder="Если хотите — оставьте комментарий и пожелание"></textarea>
+                </div>
+                <!--  <div class="form-group required">
+                    <label for="persons">Количество персон</label>
+                    <input type="number" id="persons" name="persons" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="guest-wishes">Пожелания/комментарии</label>
+                    <textarea id="guest-wishes" name="wishes" placeholder="Ваши пожелания молодоженам..."></textarea>
+                </div>-->
+                <button type="submit" class="btn" style="width: 100%;">Подтвердить →</button>
+                <p id="form-status" style="text-align:center; margin-top: 1rem; color: var(--medium-gray); display:none;"></p>
+            </form>
+        </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section class="contacts" id="contacts">
+        <div class="section-inner">
+        <h2>Связаться с нами</h2>
+        <!-- <p style="text-align: center; margin-bottom: 2rem; color: var(--medium-gray);">
+            По всем вопросам, связанным с мероприятием, вы можете связаться с нами:
+        </p>-->
+        <div class="contacts-grid">
+          
+            <div class="contact-card">
+                <div class="contact-name">Захар</div>
+                <div class="contact-phone">+375 (29) 769-32-65</div>
+                <a href="tel:+375297693265" class="btn" style="font-size: 0.9rem; padding: 0.7rem 1.5rem;">Связаться</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-name">Кристина</div>
+                <div class="contact-phone">+375 (29) 289-63-62</div>
+                <a href="tel:+375292896362" class="btn" style="font-size: 0.9rem; padding: 0.7rem 1.5rem;">Связаться</a>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown" id="countdown">
+        <div class="section-inner">
+        <h2>До нашей свадьбы осталось</h2>
+        <div class="countdown-container">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">0</span>
+                <span class="countdown-label">Дней</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">0</span>
+                <span class="countdown-label">Часов</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">0</span>
+                <span class="countdown-label">Минут</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">0</span>
+                <span class="countdown-label">Секунд</span>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+   <!--  <section class="footer" id="footer">
+        <div class="footer-content">
+            <h2>До скорой встречи!</h2>
+            <p class="footer-signature">С любовью, Кристина и Захар</p>
+        </div>
+    </section>-->
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const weddingDate = new Date('2026-08-16T12:00:00');
+            const now = new Date();
+            const difference = weddingDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(3, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                document.getElementById('days').textContent = '000';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section:not(.hero)').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Form handling - supports Formspree and generic endpoints (Google Apps Script / Forms)
+        (function () {
+            const form = document.getElementById('guest-form');
+            if (!form) return;
+
+            const statusEl = document.getElementById('form-status');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            function collectAttendees() {
+                const invited = Array.isArray(window._invitedNames) ? window._invitedNames.slice() : [];
+                const present = [];
+                // single-person radio case
+                if (invited.length === 1) {
+                    const singleRadio = document.querySelector('input[name="single_present"]:checked');
+                    const presentVal = singleRadio ? singleRadio.value === 'yes' : false;
+                    if (presentVal) present.push(invited[0]);
+                } else {
+                    // check checkboxes
+                    const boxes = document.querySelectorAll('#attendees-list input[type="checkbox"]');
+                    boxes.forEach(cb => {
+                        if (cb.checked) present.push(cb.value);
+                    });
+                }
+
+                const summary = { invited, present };
+                const hidden = document.getElementById('attendees_json');
+                if (hidden) hidden.value = JSON.stringify(summary);
+
+                const hidInv = document.getElementById('attendees_invited');
+                const hidPres = document.getElementById('attendees_present');
+                if (hidInv) hidInv.value = invited.join(', ');
+                if (hidPres) hidPres.value = present.join(', ');
+
+                return summary;
+            }
+
+            function setStatus(message, isError) {
+                if (!statusEl) return;
+                statusEl.textContent = message;
+                statusEl.style.display = 'block';
+                statusEl.style.color = isError ? '#b3261e' : 'var(--medium-gray)';
+            }
+
+            form.addEventListener('submit', function (e) {
+                const endpoint = form.getAttribute('action') || '';
+                if (!endpoint || endpoint.includes('YOUR_FORM_ID')) {
+                    e.preventDefault();
+                    setStatus('Укажите рабочий endpoint в action формы (Formspree или Google Apps Script URL).', true);
+                    return;
+                }
+
+                // If sending to Google Apps Script, use normal form submission into a hidden iframe
+                // to avoid CORS preflight issues and blocked responses.
+                if (endpoint.includes('script.google.com') || endpoint.includes('script.googleusercontent.com')) {
+                    e.preventDefault();
+                    setStatus('Отправляем…', false);
+
+                    const iframeName = 'gs_iframe_' + Date.now();
+                    const iframe = document.createElement('iframe');
+                    iframe.name = iframeName;
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+
+                    const originalTarget = form.getAttribute('target');
+                    form.setAttribute('target', iframeName);
+
+                    // Disable submit button while sending
+                    const originalBtnText = submitBtn ? submitBtn.textContent : '';
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Отправляем…';
+                    }
+
+                    iframe.addEventListener('load', function () {
+                        // Load event fires when response arrives (we can't read body due to CORS),
+                        // but it means the POST completed.
+                        setStatus('Спасибо! Ответ отправлен.', false);
+                        try { form.reset(); } catch (e) {}
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalBtnText;
+                        }
+                        // cleanup
+                        setTimeout(() => {
+                            try { document.body.removeChild(iframe); } catch (e) {}
+                            if (originalTarget) form.setAttribute('target', originalTarget);
+                            else form.removeAttribute('target');
+                        }, 800);
+                    }, { once: true });
+
+                    // collect attendees into hidden field before submit
+                    try { collectAttendees(); } catch (er) {}
+                    // Submit normally into the iframe (no fetch, so no CORS)
+                    form.submit();
+                    return;
+                }
+
+                // Otherwise, use fetch (AJAX) for endpoints that support CORS (Formspree etc.)
+                e.preventDefault();
+                const originalBtnText = submitBtn ? submitBtn.textContent : '';
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Отправляем…';
+                }
+                setStatus('Отправляем…', false);
+
+                (async () => {
+                    try {
+                        // collect attendees into hidden field so fetch/FormData includes it
+                        try { collectAttendees(); } catch (er) {}
+                        const formData = new FormData(form);
+                        const fetchOptions = {
+                            method: 'POST',
+                            body: formData
+                        };
+                        if (endpoint.includes('formspree.io')) {
+                            fetchOptions.headers = { 'Accept': 'application/json' };
+                        }
+                        const resp = await fetch(endpoint, fetchOptions);
+                        if (resp.ok) {
+                            setStatus('Спасибо! Ответ отправлен.', false);
+                            form.reset();
+                        } else {
+                            setStatus('Не удалось отправить. Попробуйте ещё раз чуть позже.', true);
+                        }
+                    } catch (err) {
+                        setStatus('Нет связи. Проверь интернет и попробуй ещё раз.', true);
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalBtnText;
+                        }
+                    }
+                })();
+            });
+        })();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Personalized greeting from URL parameter with caching (localStorage)
+        (function() {
+            const greetingEl = document.getElementById('greeting-names');
+            if (!greetingEl) return;
+
+            // helper: render attendees checkboxes into the form
+            function renderAttendeesList(names) {
+                window._invitedNames = names || [];
+                const container = document.getElementById('attendees-list');
+                if (!container) return;
+                container.innerHTML = '';
+                if (!names || names.length === 0) {
+                    container.style.display = 'none';
+                    return;
+                }
+                container.style.display = 'block';
+                if (names.length === 1) {
+                    // Single invited person — show name and a radio to confirm presence
+                    const singleWrap = document.createElement('div');
+                    singleWrap.style.display = 'flex';
+                    singleWrap.style.flexDirection = 'column';
+                    singleWrap.style.alignItems = 'center';
+                    singleWrap.style.padding = '0.5rem 0';
+
+                    const nameEl = document.createElement('div');
+                    nameEl.textContent = names[0];
+                    nameEl.style.fontWeight = '600';
+                    nameEl.style.fontSize = '1.15rem';
+                    nameEl.style.color = 'var(--dark-gray)';
+                    nameEl.style.marginBottom = '0.5rem';
+                    singleWrap.appendChild(nameEl);
+
+                    const radiosWrap = document.createElement('div');
+                    radiosWrap.style.display = 'flex';
+                    radiosWrap.style.gap = '1rem';
+                    radiosWrap.style.alignItems = 'center';
+
+                    const yesLabel = document.createElement('label');
+                    yesLabel.className = 'attendee-single';
+                    const yes = document.createElement('input');
+                    yes.type = 'radio';
+                    yes.name = 'single_present';
+                    yes.value = 'yes';
+                    yes.checked = true;
+                    const yesText = document.createElement('span');
+                    yesText.textContent = 'Буду присутствовать';
+                    yesLabel.appendChild(yes);
+                    yesLabel.appendChild(yesText);
+
+                    const noLabel = document.createElement('label');
+                    noLabel.className = 'attendee-single';
+                    const no = document.createElement('input');
+                    no.type = 'radio';
+                    no.name = 'single_present';
+                    no.value = 'no';
+                    const noText = document.createElement('span');
+                    noText.textContent = 'Не смогу';
+                    noLabel.appendChild(no);
+                    noLabel.appendChild(noText);
+
+                    radiosWrap.appendChild(yesLabel);
+                    radiosWrap.appendChild(noLabel);
+                    singleWrap.appendChild(radiosWrap);
+                    container.appendChild(singleWrap);
+                    return;
+                }
+
+                const hint = document.createElement('div');
+                hint.style.marginBottom = '0.5rem';
+                hint.style.color = 'var(--medium-gray)';
+                hint.textContent = 'Выберите, кто будет присутствовать:';
+                container.appendChild(hint);
+
+                names.forEach((n, i) => {
+                    const idSafe = 'att_' + i + '_' + n.replace(/[^a-zA-Zа-яёА-ЯЁ0-9]/g,'_');
+                    const wrapper = document.createElement('label');
+                    wrapper.className = 'attendee';
+                    wrapper.htmlFor = idSafe;
+
+                    const inner = document.createElement('div');
+                    inner.style.display = 'flex';
+                    inner.style.alignItems = 'center';
+                    inner.style.gap = '0.8rem';
+
+                    const cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.id = idSafe;
+                    cb.name = 'attendees_checkbox';
+                    cb.value = n;
+                    cb.setAttribute('aria-label', n);
+
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = n;
+                    nameSpan.style.fontWeight = '500';
+                    nameSpan.style.color = 'var(--dark-gray)';
+                    nameSpan.style.fontSize = '1.05rem';
+
+                    inner.appendChild(cb);
+                    inner.appendChild(nameSpan);
+                    wrapper.appendChild(inner);
+                    container.appendChild(wrapper);
+                });
+            }
+
+            function parseNamesFromQuery(q) {
+                if (!q) return [];
+                // Replace plus with space (in case form-encoding used +)
+                let raw = q.replace(/\+/g, ' ');
+                let decoded = raw;
+                try { decoded = decodeURIComponent(raw); } catch (e) { /* ignore */ }
+                // If still percent-encoded, try decode once more
+                if (/%[0-9A-Fa-f]{2}/.test(decoded)) {
+                    try { decoded = decodeURIComponent(decoded); } catch (e) { /* ignore */ }
+                }
+                // Try to match sequences that look like names: capital + lowercase (Cyrillic/Latin)
+                const m = decoded.match(/([А-ЯЁ][а-яё]+)|([A-Z][a-z]+)/g);
+                if (m && m.length) {
+                    return m.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase());
+                }
+                // Fallback: split by non-letter characters
+                return decoded.split(/[^а-яёА-ЯЁa-zA-Z]+/).filter(Boolean);
+            }
+
+            const queryString = window.location.search.substring(1);
+            let names = parseNamesFromQuery(queryString);
+
+            // If no names from URL, try to load from cache
+            if (names.length === 0) {
+                try {
+                    const stored = localStorage.getItem('guestNames');
+                    if (stored) names = JSON.parse(stored);
+                } catch (e) { /* ignore */ }
+            } else {
+                // Save parsed names to cache
+                try { localStorage.setItem('guestNames', JSON.stringify(names)); } catch (e) {}
+            }
+
+            // Also keep a simple guestList (unique) so names across visits are stored
+            try {
+                const entryKey = names.join(' ');
+                if (entryKey) {
+                    const rawList = localStorage.getItem('guestList') || '[]';
+                    const list = Array.isArray(JSON.parse(rawList)) ? JSON.parse(rawList) : [];
+                    if (!list.includes(entryKey)) {
+                        list.push(entryKey);
+                        localStorage.setItem('guestList', JSON.stringify(list));
+                    }
+                }
+            } catch (e) { /* ignore */ }
+
+            if (names.length === 0) return;
+
+            let greetingText;
+            if (names.length === 1) {
+                const single = names[0];
+                const lower = single.toLowerCase();
+                // Heuristic: female names often end with 'а' or 'я' (simple heuristic)
+                const likelyFemale = /[ая]$/.test(lower) && !/илья$/.test(lower);
+                greetingText = likelyFemale ? `Дорогая ${single}!` : `Дорогой ${single}!`;
+            } else if (names.length === 2) {
+                greetingText = `Дорогие ${names[0]} и ${names[1]}!`;
+            } else {
+                // For 3+ names use pattern:
+                // "Дорогие A и B, а также C!" (for 3)
+                // "Дорогие A и B, а также C и D!" (for 4)
+                // "Дорогие A и B, а также C, D и E!" (for 5+)
+                const first = names[0];
+                const second = names[1];
+                const rest = names.slice(2);
+                let restStr = '';
+                if (rest.length === 1) {
+                    restStr = rest[0];
+                } else if (rest.length === 2) {
+                    restStr = `${rest[0]} и ${rest[1]}`;
+                } else {
+                    // 3 or more in rest: join with commas and "и" before last
+                    const allButLastRest = rest.slice(0, -1).join(', ');
+                    const lastRest = rest[rest.length - 1];
+                    restStr = `${allButLastRest} и ${lastRest}`;
+                }
+                greetingText = `Дорогие ${first} и ${second}, а также ${restStr}!`;
+            }
+
+            greetingEl.textContent = greetingText;
+
+            // Render attendees checkboxes in the form
+            try { renderAttendeesList(names); } catch (e) { /* ignore */ }
+            // expose invited names for submit handler
+            window._invitedNames = names;
+        })();
+    </script>
+</body>
+</html>

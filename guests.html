@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Список гостей — Захар и Кристина</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --lavender:#AA83B6;
+      --soft-pink:#F4BBC4;
+      --bg: #fbf6f6;
+      --card:#ffffff;
+      --muted:#6f6f6f;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(180deg, rgba(244,223,229,0.3), rgba(212,193,232,0.18));
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:2rem;
+    }
+    .wrap{
+      max-width:1000px;
+      margin:0 auto;
+      background: rgba(255,255,255,0.9);
+      border-radius:14px;
+      padding:1.25rem;
+      box-shadow:0 8px 30px rgba(170,131,182,0.08);
+    }
+    h1{
+      font-family: 'Playfair Display', serif;
+      color:var(--lavender);
+      text-align:center;
+      margin:0 0 1rem 0;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    }
+    .controls{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-bottom:1rem;
+      align-items:center;
+    }
+    .controls input[type="search"], .controls select {
+      padding:0.6rem 0.8rem;
+      border-radius:10px;
+      border:1px solid rgba(170,131,182,0.12);
+      min-width:220px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+      gap:1rem;
+    }
+    .card{
+      background:var(--card);
+      padding:0.9rem;
+      border-radius:12px;
+      border:1px solid rgba(212,193,232,0.35);
+      box-shadow:0 6px 18px rgba(170,131,182,0.04);
+    }
+    .card h3{margin:0 0 0.35rem 0; color:var(--lavender); font-size:1.05rem}
+    .muted{color:var(--muted); font-size:0.95rem}
+    .tag{
+      display:inline-block;
+      padding:0.25rem 0.5rem;
+      border-radius:999px;
+      background:rgba(170,131,182,0.08);
+      color:var(--lavender);
+      font-weight:600;
+      margin-right:0.4rem;
+      font-size:0.85rem;
+    }
+    .filters{display:flex; gap:0.5rem; align-items:center; justify-content:center}
+    .center{text-align:center}
+    /* Password overlay */
+    .overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:9999;
+    }
+    .pwbox{ background:white; padding:1.25rem; border-radius:10px; width:320px; max-width:92%; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.25)}
+    .pwbox input{width:100%; padding:0.6rem; border-radius:8px; border:1px solid rgba(170,131,182,0.12); margin-top:0.6rem}
+    .pwbox button{ margin-top:0.75rem; padding:0.55rem 0.9rem; border-radius:8px; border:0; background:var(--lavender); color:white; cursor:pointer}
+    .note{font-size:0.85rem; color:var(--muted); margin-top:0.5rem}
+    @media (max-width:520px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Список гостей</h1>
+    <div class="controls">
+      <input id="search" type="search" placeholder="Поиск по фамилии или имени">
+      <select id="filter">
+        <option value="all">Показать всех</option>
+        <option value="present">Подтвердили (будут)</option>
+        <option value="absent">Не будут</option>
+      </select>
+      <div class="note">Данные подтягиваются из Google Sheets (Responses). Требуется, чтобы таблица была опубликована.</div>
+    </div>
+    <div id="list" class="grid center" aria-live="polite"></div>
+  </div>
+
+  <!-- Password overlay (simple client-side protection) -->
+  <div id="overlay" class="overlay" aria-hidden="false" role="dialog">
+    <div class="pwbox" role="document" aria-label="Введите пароль">
+      <div style="font-weight:600; color:var(--lavender); font-family:'Playfair Display',serif; font-size:1.1rem">Доступ к списку гостей</div>
+      <div style="margin-top:0.5rem">Введите простой пароль для доступа</div>
+      <input id="pw" type="password" placeholder="Пароль">
+      <button id="pwSubmit">Открыть</button>
+      <div class="note">Пароль хранится в коде страницы. Это простая защита — не используйте её для секретных данных.</div>
+    </div>
+  </div>
+
+  <script>
+    // === CONFIG ===
+    // Замените SPREADSHEET_ID на ID вашей таблицы (из URL между /d/ и /edit)
+    const SPREADSHEET_ID = '1SvczcH13Czx-Npo2290th6yzcRkbI-n3rGLAk7R0UAU';
+    // Имя листа (если нужно) или оставьте пустым
+    const SHEET_NAME = ''; // optional
+    // Простая защита: замените пароль на свой
+    const PAGE_PASSWORD = 'wedding2026';
+
+    // Helper: build gviz URL
+    function gvizUrl() {
+      const base = 'https://docs.google.com/spreadsheets/d/' + SPREADSHEET_ID + '/gviz/tq?tqx=out:json';
+      if (SHEET_NAME) return base + '&sheet=' + encodeURIComponent(SHEET_NAME);
+      return base;
+    }
+
+    // parse gviz response text to JSON
+    function parseGviz(text) {
+      const m = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+      if (!m) throw new Error('Неверный ответ от Google');
+      return JSON.parse(m[1]);
+    }
+
+    // render rows into cards
+    function renderRows(rows, cols) {
+      const container = document.getElementById('list');
+      container.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        container.innerHTML = '<div class="card center muted">Нет данных</div>';
+        return;
+      }
+      rows.forEach(r => {
+        const obj = {};
+        cols.forEach((c, i) => {
+          obj[c.label || ('col' + i)] = (r.c[i] && r.c[i].v) ? r.c[i].v : '';
+        });
+        // normalize fields we expect: attendees_invited, attendees_present, lastName, comments, Timestamp
+        const invited = obj.attendees_invited || obj.attendees_json || '';
+        const present = obj.attendees_present || '';
+        const lastName = obj.lastName || obj.Family || '';
+        const comments = obj.comments || obj.wishes || '';
+        const time = obj.Timestamp || obj.timestamp || '';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        const h = document.createElement('h3');
+        h.textContent = lastName || invited || 'Гость';
+        card.appendChild(h);
+
+        if (invited) {
+          const p = document.createElement('div');
+          p.innerHTML = '<strong>Приглашенные:</strong> ' + escapeHtml(invited);
+          card.appendChild(p);
+        }
+        if (present) {
+          const p2 = document.createElement('div');
+          p2.innerHTML = '<strong>Подтвердили (будут):</strong> ' + escapeHtml(present);
+          card.appendChild(p2);
+        } else {
+          const p2 = document.createElement('div');
+          p2.innerHTML = '<strong>Подтвердили (будут):</strong> —';
+          card.appendChild(p2);
+        }
+        if (comments) {
+          const p3 = document.createElement('div');
+          p3.innerHTML = '<strong>Комментарий:</strong> ' + escapeHtml(comments);
+          card.appendChild(p3);
+        }
+        if (time) {
+          const p4 = document.createElement('div');
+          p4.className = 'muted';
+          p4.style.marginTop='0.6rem';
+          p4.textContent = 'Отправлено: ' + time;
+          card.appendChild(p4);
+        }
+
+        container.appendChild(card);
+      });
+    }
+
+    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    async function loadAndShow() {
+      const url = gvizUrl();
+      try {
+        const res = await fetch(url);
+        const txt = await res.text();
+        const json = parseGviz(txt);
+        const cols = json.table.cols;
+        const rows = json.table.rows;
+        window._allRows = rows; window._allCols = cols;
+        renderRows(rows, cols);
+      } catch (err) {
+        document.getElementById('list').innerHTML = '<div class="card center muted">Ошибка загрузки данных: ' + escapeHtml(err.message) + '</div>';
+        console.error(err);
+      }
+    }
+
+    // filters / search
+    function applyFilters() {
+      const q = (document.getElementById('search').value || '').toLowerCase().trim();
+      const mode = document.getElementById('filter').value;
+      const rows = window._allRows || [];
+      const cols = window._allCols || [];
+      const filtered = rows.filter(r => {
+        const obj = {};
+        cols.forEach((c,i)=> obj[c.label||('col'+i)] = (r.c[i] && r.c[i].v) ? String(r.c[i].v) : '');
+        const invited = (obj.attendees_invited || obj.attendees_json || '').toLowerCase();
+        const present = (obj.attendees_present || '').toLowerCase();
+        const lastName = (obj.lastName || '').toLowerCase();
+        const comments = (obj.comments || '').toLowerCase();
+        const text = (invited + ' ' + present + ' ' + lastName + ' ' + comments);
+        if (q && text.indexOf(q) === -1) return false;
+        if (mode === 'present') return present && present.trim() !== '';
+        if (mode === 'absent') return !present || present.trim() === '';
+        return true;
+      });
+      renderRows(filtered, cols);
+    }
+
+    // password handling
+    document.getElementById('pwSubmit').addEventListener('click', () => {
+      const val = document.getElementById('pw').value || '';
+      if (val === PAGE_PASSWORD) {
+        document.getElementById('overlay').style.display = 'none';
+        loadAndShow();
+      } else {
+        alert('Неверный пароль');
+      }
+    });
+
+    // filters events
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.getElementById('filter').addEventListener('change', applyFilters);
+
+    // allow Enter key in password field
+    document.getElementById('pw').addEventListener('keypress', (e)=>{ if(e.key==='Enter') document.getElementById('pwSubmit').click(); });
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ответы гостей</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --lavender: #AA83B6;
+      --light-lavender: #D4C1E8;
+      --soft-pink: #F4BBC4;
+      --dusty-pink: #FFDFE5;
+      --white: #FFFFFF;
+      --dark-gray: #333333;
+      --medium-gray: #555555;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Raleway', sans-serif;
+      color: var(--dark-gray);
+      background: linear-gradient(135deg, rgba(212, 193, 232, 0.35) 0%, rgba(255, 223, 229, 0.45) 60%, rgba(244, 187, 196, 0.25) 100%);
+      min-height: 100vh;
+      padding: 3rem 1rem;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 193, 232, 0.35);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(170, 131, 182, 0.12);
+    }
+    h1 {
+      margin: 0 0 0.75rem;
+      font-family: 'Playfair Display', serif;
+      color: var(--lavender);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+    p {
+      margin: 0.75rem 0;
+      color: var(--medium-gray);
+      line-height: 1.7;
+    }
+    code {
+      background: rgba(212, 193, 232, 0.25);
+      padding: 0.1em 0.35em;
+      border-radius: 6px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.9rem 1.6rem;
+      border-radius: 999px;
+      text-decoration: none;
+      background: var(--lavender);
+      color: var(--white);
+      font-weight: 500;
+      box-shadow: 0 6px 18px rgba(170, 131, 182, 0.25);
+    }
+    .btn:hover { background: var(--soft-pink); }
+    .note {
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem;
+      border-left: 4px solid var(--soft-pink);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <!--<h1>Ответы гостей</h1>
+
+    <p>
+      Если ты используешь <b>Formspree</b>, то ответы хранятся в их панели управления.
+      На статическом хостинге (GitHub Pages) безопасно показать список ответов прямо на странице
+      <b>нельзя</b>, потому что для этого нужен секретный токен.
+    </p>
+
+    <div class="note">
+      <p><b>Как смотреть ответы:</b></p>
+      <p>
+        Открой Formspree → выбери форму → вкладка Submissions (Ответы).
+      </p>
+      <p>
+        Если хочешь именно страницу <code>/guests</code> со списком ответов — можно сделать через Formspree
+        + Google Sheets (вебхук) и читать уже опубликованную таблицу (без сервера).
+      </p>
+    </div> -->
+
+    <a class="btn" href="./index.html">← Назад на приглашение</a>
+  </main>
+</body>
+</html>
+
