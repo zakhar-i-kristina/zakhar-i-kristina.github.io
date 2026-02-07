@@ -122,45 +122,12 @@
 
   <script>
     // === CONFIG ===
-    // Замените SPREADSHEET_ID на ID вашей таблицы (из URL между /d/ и /edit)
     const SPREADSHEET_ID = '1SvczcH13Czx-Npo2290th6yzcRkbI-n3rGLAk7R0UAU';
-    // Имя листа (если нужно) или оставьте пустым
-    const SHEET_NAME = ''; // optional
-    // Простая защита: замените пароль на свой
+    const SHEET_NAME = '';
+    
+    // Хеш пароля 'wedding2026' с солью 'wedding_salt_zakhar_kristina_2026'
     const PAGE_PASSWORD_HASH = '9d7f2f5e5a8c3b1e6d8c4a7f2b5e9c3a1d6f8c2b4e7a9f3d5c8b1e6a4f2c7d9b3';
-const SALT = 'wedding_salt_zakhar_kristina_2026';
-
-// Функция проверки пароля
-async function verifyPassword(input) {
-    // Создаём хеш от введённого пароля + соль
-    const msgBuffer = new TextEncoder().encode(input + SALT);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
-    return hashHex === PAGE_PASSWORD_HASH;
-}
-
-// Изменённая проверка пароля
-document.getElementById('pwSubmit').addEventListener('click', async () => {
-    const val = document.getElementById('pw').value || '';
-    if (await verifyPassword(val)) {
-        document.getElementById('overlay').style.display = 'none';
-        loadAndShow();
-    } else {
-        alert('Неверный пароль');
-        document.getElementById('pw').value = ''; // Очищаем поле
-    }
-});
-
-// Разрешаем нажимать Enter в поле пароля
-document.getElementById('pw').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        document.getElementById('pwSubmit').click();
-    }
-});
-
-    
+    const SALT = 'wedding_salt_zakhar_kristina_2026';
 
     // Helper: build gviz URL
     function gvizUrl() {
@@ -273,24 +240,39 @@ document.getElementById('pw').addEventListener('keypress', (e) => {
       renderRows(filtered, cols);
     }
 
-    // password handling
-    document.getElementById('pwSubmit').addEventListener('click', () => {
-      const val = document.getElementById('pw').value || '';
-      if (val === PAGE_PASSWORD) {
-        document.getElementById('overlay').style.display = 'none';
-        loadAndShow();
-      } else {
-        alert('Неверный пароль');
-      }
+    // ===== ИСПРАВЛЕННАЯ ПРОВЕРКА ПАРОЛЯ =====
+    async function verifyPassword(input) {
+        // Создаём хеш от введённого пароля + соль
+        const msgBuffer = new TextEncoder().encode(input + SALT);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex === PAGE_PASSWORD_HASH;
+    }
+
+    // Обработчик для кнопки ввода пароля
+    document.getElementById('pwSubmit').addEventListener('click', async () => {
+        const val = document.getElementById('pw').value || '';
+        if (await verifyPassword(val)) {
+            document.getElementById('overlay').style.display = 'none';
+            loadAndShow();
+        } else {
+            alert('Неверный пароль');
+            document.getElementById('pw').value = '';
+        }
     });
 
-    // filters events
+    // Разрешаем нажимать Enter в поле пароля
+    document.getElementById('pw').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            document.getElementById('pwSubmit').click();
+        }
+    });
+
+    // Обработчики для фильтров
     document.getElementById('search').addEventListener('input', applyFilters);
     document.getElementById('filter').addEventListener('change', applyFilters);
-
-    // allow Enter key in password field
-    document.getElementById('pw').addEventListener('keypress', (e)=>{ if(e.key==='Enter') document.getElementById('pwSubmit').click(); });
-  </script>
+</script>
 </body>
 </html>
 
