@@ -2054,6 +2054,13 @@
             let names = parseNamesFromQuery(queryString);
             names = mergeNamePatronymic(names);
 
+            // Heuristic: if we получили фамилию + (имя Отчество) как два элемента,
+            // считаем это одним гостем "Фамилия Имя Отчество"
+            // Пример: "Коротина Наталия Аркадьевна" из ?КоротинаНаталияАркадьевна
+            if (names.length === 2 && /\s/.test(names[1])) {
+                names = [names[0] + ' ' + names[1]];
+            }
+
             // If no names from URL, try to load from cache
             if (names.length === 0) {
                 try {
